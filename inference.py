@@ -40,12 +40,39 @@ class Inference:
         qList = [y.strip() for y in strQ.split(",")]
         return(eList, qList)
 
+
+
     def enumeration(self, query, evidence):
         """Infer the exact probability of the query by enumeration."""
         # Your code goes here
-        def asss():
-            print();
-            x= self.net
+        Qx= {}
+        boolSet = [1,0]
+        #print(self.net.nodes())
+        for x_i in boolSet:
+            evidence[query] = x_i;
+            #print("query ", query)
+            #print("evidence ", evidence)
+            #Qx[x_i] = enumerateAll(evidence)
+            nodes = self.net.nodes
+            Qx[x_i] = self.enumerateAll(evidence, nodes)
+
+            del evidence[query]
+        # return
+
+    def enumerateAll(self, evidence, nodes):
+        #print("here")
+        if len(nodes) == 0 or nodes is None:
+            return 1.0
+        Y = nodes[0]
+        if (Y in evidence):
+            result = self.net.probOf # figure out how to pass that value
+
+
+
+
+
+
+
 
 
 

@@ -6,7 +6,7 @@ from inference import Inference
 
 def main():
     print ("Enter input query (of the form '[<E,t> <J,t>][M, A]' ): ")
-    input_query = input()
+    input_query = '<E,t> <J,t>][M, A]' # input()
     print ('Inference by Enumeration: ')
     net = AlarmNetwork()
     random = psuedorandom()
