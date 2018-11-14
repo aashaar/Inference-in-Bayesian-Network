@@ -43,6 +43,9 @@ class Inference:
     def enumeration(self, query, evidence):
         """Infer the exact probability of the query by enumeration."""
         # Your code goes here
+        def asss():
+            print();
+            x= self.net
 
 
 
