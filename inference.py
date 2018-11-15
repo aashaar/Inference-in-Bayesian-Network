@@ -52,28 +52,45 @@ class Inference:
             evidence[query] = x_i;
             #print("query ", query)
             #print("evidence ", evidence)
-            #Qx[x_i] = enumerateAll(evidence)
-            nodes = self.net.nodes
+            nodes = self.net.nodes()
+                # Qx[x_i] = enumerateAll(evidence)
             Qx[x_i] = self.enumerateAll(evidence, nodes)
 
             del evidence[query]
-        # return
+        return self.normalize(Qx)
 
     def enumerateAll(self, evidence, nodes):
         #print("here")
         if len(nodes) == 0 or nodes is None:
             return 1.0
         Y = nodes[0]
+        parents = self.net.parent(Y)
+        parentTruthValues = [evidence[parent] for parent in parents]
         if (Y in evidence):
-            result = self.net.probOf # figure out how to pass that value
+            # print("01 ", evidence)
+            # print("02 ", evidence[Y])
+            # print("03 ", self.net.parent(Y))
+            result = self.net.probOf((Y, evidence[Y]), parentTruthValues) * self.enumerateAll(evidence, nodes[1:])
+            # self.net.parent(Y) is in [] in above line as it has to return a list of parents
+            return  result
+        else:
+            #summing out
+            result = 0
+            evidence[Y] = 1 # first initialize evidence of Y to True and add it to the evidence[] for calculation
+            result += self.net.probOf((Y, 1), parentTruthValues) * self.enumerateAll(evidence, nodes[1:])
+            evidence[Y] = 0  # first initialize to True
+            result += self.net.probOf((Y, 1), parentTruthValues) * self.enumerateAll(evidence, nodes[1:])
+            del evidence[Y] # remove evidence[Y] to restore evidence back to its original value
+            return result
 
 
-
-
-
-
-
-
+    def normalize(self, Qx):
+        total = 0.0
+        for val in Qx.values():
+            total += val
+        for key in Qx.keys():
+            Qx[key] /= total
+        return Qx
 
 
     def priorSampling(self, query, evidence):
