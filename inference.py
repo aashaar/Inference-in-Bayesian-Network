@@ -71,8 +71,7 @@ class Inference:
             # print("02 ", evidence[Y])
             # print("03 ", self.net.parent(Y))
             result = self.net.probOf((Y, evidence[Y]), parentTruthValues) * self.enumerateAll(evidence, nodes[1:])
-            # self.net.parent(Y) is in [] in above line as it has to return a list of parents
-            return  result
+            return result
         else:
             #summing out
             result = 0
@@ -96,6 +95,17 @@ class Inference:
     def priorSampling(self, query, evidence):
         """Calculate the probability of query using prior sampling."""
         # Your code goes here
+        list = []
+        nodes = self.net.nodes()
+        for node in nodes:
+            parents = self.net.parent(node)
+            parentTruthValues = [evidence[parent] for parent in parents]
+            result = self.net.probOf((node, evidence[node]), parentTruthValues)
+            if self.random >= result:
+                list.append(True)
+            else:
+                list.append(False)
+        return list
 
     def rejectionSampling(self, query, evidence):
         """Calculate the probability of query using rejection sampling.
