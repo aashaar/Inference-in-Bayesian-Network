@@ -67,7 +67,7 @@ class Inference:
         parents = self.net.parent(Y)
         parentTruthValues = [evidence[parent] for parent in parents]
         if (Y in evidence):
-            # print("01 ", evidence)
+            print("01 ", evidence)
             # print("02 ", evidence[Y])
             # print("03 ", self.net.parent(Y))
             result = self.net.probOf((Y, evidence[Y]), parentTruthValues) * self.enumerateAll(evidence, nodes[1:])
@@ -92,20 +92,67 @@ class Inference:
         return Qx
 
 
+    def formatEvidence(self, evidence):
+        """
+        This function gives the topological index number of the evidence elements
+        For nodes = ["B", "E", "A", "J", "M"] & evidence = {'A': 0, 'J': 1}
+        function will return o/p : [None, None, 0, 1, None]    also result will be = {2: 0, 3: 1}
+        result is dictionary - Key is topological index of the evidence in self.net.nodes(alarm.py) and Value is 0/1 value from the evidence
+        :param evidence:
+        :return: list of evidence truth values 0/1 in toplogical order. None implies that corresponding element is not present in the evidence
+        """
+        nodes = self.net.nodes()#["B", "E", "A", "J", "M"]
+        #evidence = {'B': 0, 'M': 0}
+        keys = evidence.keys()
+        # size = len(evidence)
+        # print(keys)
+        result = {}
+        evidence_sample = [None, None, None, None, None]
+        for x in keys:
+            # print("x= ",x)
+            for i, y in enumerate(nodes):
+                # print(" i= ",i)
+                # print(" y= ",y)
+                if x == y:
+                    result[i] = evidence.get(x)
+                    evidence_sample[i] = evidence.get(x)
+        #print(result)
+        #print(evidence_sample)
+        return evidence_sample
+
     def priorSampling(self, query, evidence):
         """Calculate the probability of query using prior sampling."""
         # Your code goes here
+        list =self.getNSamples(evidence)
+
+
+
+
+    def getNSamples(self, evidence):
+        """Gets n samples for given node"""
+        list = []
+        n = self.noOfSamples
+        for i in range(1, n):
+            sampleList = self.getSample(evidence)
+            list.append(sampleList)
+        return sampleList
+
+
+    def getSample(self, evidence):
+        """Gets 1 sample for given node"""
         list = []
         nodes = self.net.nodes()
         for node in nodes:
             parents = self.net.parent(node)
             parentTruthValues = [evidence[parent] for parent in parents]
             result = self.net.probOf((node, evidence[node]), parentTruthValues)
-            if self.random >= result:
-                list.append(True)
+            if self.random <= result:
+                list.append(1)
             else:
-                list.append(False)
+                list.append(0)
         return list
+
+
 
     def rejectionSampling(self, query, evidence):
         """Calculate the probability of query using rejection sampling.
