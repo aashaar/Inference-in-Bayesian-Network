@@ -96,10 +96,11 @@ class Inference:
         """
         This function gives the topological index number of the evidence elements
         For nodes = ["B", "E", "A", "J", "M"] & evidence = {'A': 0, 'J': 1}
-        function will return o/p : [None, None, 0, 1, None]    also result will be = {2: 0, 3: 1}
-        result is dictionary - Key is topological index of the evidence in self.net.nodes(alarm.py) and Value is 0/1 value from the evidence
-        :param evidence:
-        :return: list of evidence truth values 0/1 in toplogical order. None implies that corresponding element is not present in the evidence
+        function will produce : result = {2: 0, 3: 1} & evidence_sample =[None, None, 0, 1, None]
+        'evidence_sample' is a list of evidence truth values 0/1 in toplogical order. None implies that corresponding element is not present in the evidence
+        :param evidence
+        :return: 'result' - a dictionary - Key is topological index of the evidence in self.net.nodes(alarm.py) and Value is 0/1 value from the evidence
+
         """
         nodes = self.net.nodes()#["B", "E", "A", "J", "M"]
         #evidence = {'B': 0, 'M': 0}
@@ -116,14 +117,45 @@ class Inference:
                 if x == y:
                     result[i] = evidence.get(x)
                     evidence_sample[i] = evidence.get(x)
-        #print(result)
+        # print(result)
         #print(evidence_sample)
-        return evidence_sample
+
+        #return evidence_sample
+        return result
+
+
+    def getIndex(self, node):
+        """
+        :param node:
+        :return: topological index of the node
+        """
+        nodes = self.net.nodes()
+        for i, x in enumerate(nodes):
+            if (x == node):
+                #print(i)
+                return i
 
     def priorSampling(self, query, evidence):
         """Calculate the probability of query using prior sampling."""
         # Your code goes here
-        list =self.getNSamples(evidence)
+        list = self.getNSamples(evidence)
+        formattedEvidence = self.formatEvidence(evidence)
+        keys = formattedEvidence.keys()  # [2,3]
+        final = [] # list that will contain only the samples that satisfy the evidence
+        for i in list:
+            # print(i)
+            flag = True
+            for j in keys:
+                if i[j] != formattedEvidence[j]:
+                    flag = False
+            if (flag == True):
+                final.append(i)
+
+        #print(final)
+        totalCount = len(final)
+        queryIndex = self.getIndex(query)
+        #get index see ###############################
+
 
 
 
@@ -135,7 +167,7 @@ class Inference:
         for i in range(1, n):
             sampleList = self.getSample(evidence)
             list.append(sampleList)
-        return sampleList
+        return list
 
 
     def getSample(self, evidence):
