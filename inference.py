@@ -67,7 +67,7 @@ class Inference:
         parents = self.net.parent(Y)
         parentTruthValues = [evidence[parent] for parent in parents]
         if (Y in evidence):
-            print("01 ", evidence)
+            #print("01 ", evidence)
             # print("02 ", evidence[Y])
             # print("03 ", self.net.parent(Y))
             result = self.net.probOf((Y, evidence[Y]), parentTruthValues) * self.enumerateAll(evidence, nodes[1:])
@@ -78,7 +78,7 @@ class Inference:
             evidence[Y] = 1 # first initialize evidence of Y to True and add it to the evidence[] for calculation
             result += self.net.probOf((Y, 1), parentTruthValues) * self.enumerateAll(evidence, nodes[1:])
             evidence[Y] = 0  # first initialize to True
-            result += self.net.probOf((Y, 1), parentTruthValues) * self.enumerateAll(evidence, nodes[1:])
+            result += self.net.probOf((Y, 0), parentTruthValues) * self.enumerateAll(evidence, nodes[1:])
             del evidence[Y] # remove evidence[Y] to restore evidence back to its original value
             return result
 
@@ -153,6 +153,8 @@ class Inference:
 
         #print(final)
         totalCount = len(final)
+        if(totalCount ==0):
+            return 0.0
         queryIndex = self.getIndex(query)
         trueCount = 0 # no. of samples (which satisfy the evidence &) for which query node is True
         for k in evidenceList:
@@ -183,11 +185,14 @@ class Inference:
         for node in nodes:
             parents = self.net.parent(node)
             parentTruthValues = [evidence[parent] for parent in parents]
-            result = self.net.probOf((node, evidence[node]), parentTruthValues)
-            if self.random <= result:
+            #result = self.net.probOf((node, evidence[node]), parentTruthValues)
+            result = self.net.probOf((node, 1), parentTruthValues)
+            if float(self.random.uniform()) <= result:
                 list.append(1)
+                evidence[node] = 1 # add that node to evidence with a True value for it's child's CPT computation
             else:
                 list.append(0)
+                evidence[node] = 0 # add that node to evidence with a False value for it's child's CPT computation
         return list
 
 
