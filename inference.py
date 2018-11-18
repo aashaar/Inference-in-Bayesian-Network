@@ -1,3 +1,4 @@
+import copy
 class Inference:
     """Inference for Bays Net."""
 
@@ -46,6 +47,7 @@ class Inference:
         """Infer the exact probability of the query by enumeration."""
         # Your code goes here
         Qx= {}
+
         boolSet = [1,0]
         #print(self.net.nodes())
         for x_i in boolSet:
@@ -58,6 +60,19 @@ class Inference:
 
             del evidence[query]
         return self.normalize(Qx)
+
+        """
+        evidence[query] = 1;
+        # print("query ", query)
+        # print("evidence ", evidence)
+        nodes = self.net.nodes()
+        # Qx[x_i] = enumerateAll(evidence)
+        Qx = self.enumerateAll(evidence, nodes)
+
+        del evidence[query]
+
+        return Qx#self.normalize(Qx)
+        """
 
     def enumerateAll(self, evidence, nodes):
         #print("here")
@@ -138,22 +153,23 @@ class Inference:
     def priorSampling(self, query, evidence):
         """Calculate the probability of query using prior sampling."""
         # Your code goes here
-        evidenceList = self.getNSamples(evidence)
+        nSamples = self.getNSamples(evidence)
         formattedEvidence = self.formatEvidence(evidence)
         keys = formattedEvidence.keys()  # [2,3]
-        final = [] # list that will contain only the samples that satisfy the evidence
-        for i in evidenceList:
+        evidenceList = [] # list that will contain only the samples that satisfy the evidence
+        for i in nSamples:
             # print(i)
             flag = True
             for j in keys:
                 if i[j] != formattedEvidence[j]:
                     flag = False
             if (flag == True):
-                final.append(i)
+                evidenceList.append(i)
 
         #print(final)
-        totalCount = len(final)
-        if(totalCount ==0):
+        evidenceCount = len(evidenceList)
+        #print(evidenceList)
+        if(evidenceCount ==0):
             return 0.0
         queryIndex = self.getIndex(query)
         trueCount = 0 # no. of samples (which satisfy the evidence &) for which query node is True
@@ -163,9 +179,8 @@ class Inference:
 
         #print(trueCount)
 
-        return trueCount/totalCount #check this logic
-
-
+        return trueCount/evidenceCount
+        #return trueCount / self.noOfSamples
 
 
     def getNSamples(self, evidence):
@@ -181,18 +196,19 @@ class Inference:
     def getSample(self, evidence):
         """Gets 1 sample for given node"""
         list = []
+        tempEvidence = copy.deepcopy(evidence)
         nodes = self.net.nodes()
         for node in nodes:
             parents = self.net.parent(node)
-            parentTruthValues = [evidence[parent] for parent in parents]
+            parentTruthValues = [tempEvidence[parent] for parent in parents]
             #result = self.net.probOf((node, evidence[node]), parentTruthValues)
             result = self.net.probOf((node, 1), parentTruthValues)
             if float(self.random.uniform()) <= result:
                 list.append(1)
-                evidence[node] = 1 # add that node to evidence with a True value for it's child's CPT computation
+                tempEvidence[node] = 1 # add that node to evidence with a True value for it's child's CPT computation
             else:
                 list.append(0)
-                evidence[node] = 0 # add that node to evidence with a False value for it's child's CPT computation
+                tempEvidence[node] = 0 # add that node to evidence with a False value for it's child's CPT computation
         return list
 
 
@@ -211,8 +227,41 @@ class Inference:
         """
         # Your code goes here
 
+        formattedEvidence = self.formatEvidence(evidence)
+        keys = formattedEvidence.keys()
+        #######################
+        evidenceList = []  # list that will contain only the samples that satisfy the evidence
 
+        # print(i)
+        n = self.noOfSamples
+        for i in range(1, n):
+        #i=0
+        #while(i<=n):
+            sample = self.getSample(evidence)
+            flag = True
+            for j in keys:
+                if sample[j] != formattedEvidence[j]:
+                    flag = False
+            if (flag == True):
+                evidenceList.append(sample)
+                #i += 1
 
+            # print(final)
+        evidenceCount = len(evidenceList)
+        # print(evidenceList)
+        if (evidenceCount == 0):
+            return 0.0
+        queryIndex = self.getIndex(query)
+        trueCount = 0  # no. of samples (which satisfy the evidence &) for which query node is True
+        for k in evidenceList:
+            if (k[queryIndex] == 1):
+                trueCount += 1
+
+        # print(trueCount)
+
+        return trueCount / evidenceCount
+
+        #########################
     def likelihoodWeighting(self, query, evidence):
         """Calculate the probability of query using likelihood weighted sampling."""
         # Your code goes here

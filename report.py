@@ -14,7 +14,7 @@ inputQueries.append("[<M,t> <J,f>][E]")
 net = AlarmNetwork()
 random = psuedorandom()
 sample_size = [1, 10, 50, 100, 200, 500, 1000, 10000]
-inference_types = [1]#[1, 2, 3]
+inference_types = [2]#[1, 2, 3]
 
 for input in inputQueries:
     for sample in sample_size:

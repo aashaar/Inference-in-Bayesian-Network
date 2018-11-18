@@ -6,17 +6,18 @@ from inference import Inference
 
 def main():
     print ("Enter input query (of the form '[<E,t> <J,t>][M, A]' ): ")
-    #input_query = '[<E,t> <J,t>][M, A]' # input()
-    input_query = '[<A,f>][B, J]'
-    #input_query = '[<J,t> <E,f>][B, M]'
-    #input_query = '[<M,t><J,f>][B, E]'
+    #input_query = input()
+    #input_query = '[<A,f>][B, J]'
+    input_query = '[<J,t> <E,f>][B, M]'
+    #input_query = '[<M,t> <J,f>][B, E]'
     print ('Inference by Enumeration: ')
     net = AlarmNetwork()
     random = psuedorandom()
     exactInfer = Inference(net, 0, 0, random )
     print ( exactInfer.infer(input_query)[0])
     print ("Enter sample count: ")
-    s = input()
+    #s = input()
+    s = 10000
     NoOfSamples = int(s)
     print ('Inference by prior sampling: ')
     priorSamplingInfer = Inference(net, 1, NoOfSamples, random)
