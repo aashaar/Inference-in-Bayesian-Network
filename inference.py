@@ -127,7 +127,7 @@ class Inference:
     def getIndex(self, node):
         """
         :param node:
-        :return: topological index of the node
+        :return: topological index of the node in the argument
         """
         nodes = self.net.nodes()
         for i, x in enumerate(nodes):
@@ -138,11 +138,11 @@ class Inference:
     def priorSampling(self, query, evidence):
         """Calculate the probability of query using prior sampling."""
         # Your code goes here
-        list = self.getNSamples(evidence)
+        evidenceList = self.getNSamples(evidence)
         formattedEvidence = self.formatEvidence(evidence)
         keys = formattedEvidence.keys()  # [2,3]
         final = [] # list that will contain only the samples that satisfy the evidence
-        for i in list:
+        for i in evidenceList:
             # print(i)
             flag = True
             for j in keys:
@@ -154,8 +154,14 @@ class Inference:
         #print(final)
         totalCount = len(final)
         queryIndex = self.getIndex(query)
-        #get index see ###############################
+        trueCount = 0 # no. of samples (which satisfy the evidence &) for which query node is True
+        for k in evidenceList:
+            if (k[queryIndex] == 1):
+                trueCount += 1
 
+        #print(trueCount)
+
+        return trueCount/totalCount #check this logic
 
 
 
