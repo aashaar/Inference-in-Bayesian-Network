@@ -275,7 +275,11 @@ class Inference:
                 trueProb += w
             else:
                 falseProb += w
-        normalizedResult = trueProb/(trueProb + falseProb)
+        total = trueProb + falseProb
+        if total == 0:
+            normalizedResult = 0.0
+        else:
+            normalizedResult = trueProb/(total)
         return normalizedResult
 
 
