@@ -7,8 +7,8 @@ from inference import Inference
 def main():
     print ("Enter input query (of the form '[<E,t> <J,t>][M, A]' ): ")
     #input_query = input()
-    input_query = '[<A,f>][B, J]'
-    #input_query = '[<J,t> <E,f>][B, M]'
+    #input_query = '[<A,f>][B, J]'
+    input_query = '[<J,t> <E,f>][B, M]'
     #input_query = '[<M,t> <J,f>][B, E]'
     print ('Inference by Enumeration: ')
     net = AlarmNetwork()

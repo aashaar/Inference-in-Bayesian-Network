@@ -265,6 +265,46 @@ class Inference:
     def likelihoodWeighting(self, query, evidence):
         """Calculate the probability of query using likelihood weighted sampling."""
         # Your code goes here
+        trueProb = 0
+        falseProb = 0
+
+        n = self.noOfSamples
+        for i in range(1, n):
+            x, w = self.weightedSample(evidence)
+            if(x[query] == True):
+                trueProb += w
+            else:
+                falseProb += w
+        normalizedResult = trueProb/(trueProb + falseProb)
+        return normalizedResult
+
+
+    def weightedSample(self, evidence):
+        w = 1
+        x = {}
+        tempEvidence = copy.deepcopy(evidence)
+        nodes = self.net.nodes()
+
+        for node in nodes:
+            keys = tempEvidence.keys()
+            parents = self.net.parent(node)
+            parentTruthValues = [tempEvidence[parent] for parent in parents]
+
+            if (node in keys): # if node is in evidence
+                x[node] = tempEvidence[node] # take node's truth value from the evidence
+                w *= self.net.probOf((node, 1), parentTruthValues) # add node's probabilty to the weight
+            else:   # if node is not in evidence, just sample it like prior or rejection sampling
+                result = self.net.probOf((node, 1), parentTruthValues)
+                if float(self.random.uniform()) <= result:
+                    x[node] = 1
+                    tempEvidence[node] = 1  # add that node to evidence with a True value for it's child's CPT computation
+
+                else:
+                    x[node] = 0
+                    tempEvidence[node] = 0  # add that node to evidence with a False value for it's child's CPT computation
+        return x, w
+
+
 
 
 
