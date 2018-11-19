@@ -234,9 +234,9 @@ class Inference:
 
         # print(i)
         n = self.noOfSamples
-        for i in range(1, n):
-        #i=0
-        #while(i<=n):
+        #for i in range(1, n):
+        i=0
+        while(i<n):
             sample = self.getSample(evidence)
             flag = True
             for j in keys:
@@ -244,7 +244,7 @@ class Inference:
                     flag = False
             if (flag == True):
                 evidenceList.append(sample)
-                #i += 1
+                i += 1
 
             # print(final)
         evidenceCount = len(evidenceList)
