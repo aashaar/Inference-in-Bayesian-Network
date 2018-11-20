@@ -287,11 +287,14 @@ class Inference:
             for k in evidenceList:
                 if (k[queryIndex] == 1):
                     trueProb += w
+                else:
+                    falseProb += w
 
-        evidenceCount = len(evidenceList)
-        if (evidenceCount == 0):
+        total = trueProb + falseProb
+        if total == 0.0:
             return 0.0
-        return trueProb/evidenceCount
+        else:
+            return trueProb/total
         ############
 
         """ if(x[query] == True):
@@ -320,7 +323,7 @@ class Inference:
             if (node in keys): # if node is in evidence
                 x.append(tempEvidence[node]) # take node's truth value from the evidence
 
-                w *= self.net.probOf((node, 1), parentTruthValues) # add node's probabilty to the weight
+                w *= self.net.probOf((node, tempEvidence[node]), parentTruthValues) # add node's probabilty to the weight
                 #w = w * weight
             else:   # if node is not in evidence, just sample it like prior or rejection sampling
                 result = self.net.probOf((node, 1), parentTruthValues)

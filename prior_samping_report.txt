@@ -1,0 +1,147 @@
+C:\Users\aashaar\Anaconda3\python.exe "E:/UTD/3rd Sem/Artifical Intelligence CS 6364/Programming Assignments/03/code/report.py"
+sample size:  1
+Query:  [<A,f>][B]  type:  1  : 
+0.0
+sample size:  10
+Query:  [<A,f>][B]  type:  1  : 
+0.0
+sample size:  50
+Query:  [<A,f>][B]  type:  1  : 
+0.0
+sample size:  100
+Query:  [<A,f>][B]  type:  1  : 
+0.0
+sample size:  200
+Query:  [<A,f>][B]  type:  1  : 
+0.0
+sample size:  500
+Query:  [<A,f>][B]  type:  1  : 
+0.0002012072434607646
+sample size:  1000
+Query:  [<A,f>][B]  type:  1  : 
+0.0004018090501013225
+sample size:  10000
+Query:  [<A,f>][B]  type:  1  : 
+4.010126582449459e-05
+sample size:  1
+Query:  [<A,f>][J]  type:  1  : 
+0.0
+sample size:  10
+Query:  [<A,f>][J]  type:  1  : 
+0.0888888888888889
+sample size:  50
+Query:  [<A,f>][J]  type:  1  : 
+0.04897959183673469
+sample size:  100
+Query:  [<A,f>][J]  type:  1  : 
+0.05260770975056689
+sample size:  200
+Query:  [<A,f>][J]  type:  1  : 
+0.05748464931435622
+sample size:  500
+Query:  [<A,f>][J]  type:  1  : 
+0.052074914986399115
+sample size:  1000
+Query:  [<A,f>][J]  type:  1  : 
+0.04988233509587945
+sample size:  10000
+Query:  [<A,f>][J]  type:  1  : 
+0.049757136100937224
+sample size:  1
+Query:  [<J,t> <E,f>][B]  type:  1  : 
+0.0
+sample size:  10
+Query:  [<J,t> <E,f>][B]  type:  1  : 
+0.0
+sample size:  50
+Query:  [<J,t> <E,f>][B]  type:  1  : 
+0.025
+sample size:  100
+Query:  [<J,t> <E,f>][B]  type:  1  : 
+0.0
+sample size:  200
+Query:  [<J,t> <E,f>][B]  type:  1  : 
+0.0
+sample size:  500
+Query:  [<J,t> <E,f>][B]  type:  1  : 
+0.010230179028132991
+sample size:  1000
+Query:  [<J,t> <E,f>][B]  type:  1  : 
+0.021723584223953755
+sample size:  10000
+Query:  [<J,t> <E,f>][B]  type:  1  : 
+0.0171441106027505
+sample size:  1
+Query:  [<J,t> <E,f>][M]  type:  1  : 
+0.0
+sample size:  10
+Query:  [<J,t> <E,f>][M]  type:  1  : 
+0.0
+sample size:  50
+Query:  [<J,t> <E,f>][M]  type:  1  : 
+0.0
+sample size:  100
+Query:  [<J,t> <E,f>][M]  type:  1  : 
+0.0
+sample size:  200
+Query:  [<J,t> <E,f>][M]  type:  1  : 
+0.06413170163170163
+sample size:  500
+Query:  [<J,t> <E,f>][M]  type:  1  : 
+0.029638831377961812
+sample size:  1000
+Query:  [<J,t> <E,f>][M]  type:  1  : 
+0.017381937324647476
+sample size:  10000
+Query:  [<J,t> <E,f>][M]  type:  1  : 
+0.0321798430035693
+sample size:  1
+Query:  [<M,t> <J,f>][B]  type:  1  : 
+0.0
+sample size:  10
+Query:  [<M,t> <J,f>][B]  type:  1  : 
+0.0
+sample size:  50
+Query:  [<M,t> <J,f>][B]  type:  1  : 
+0.0
+sample size:  100
+Query:  [<M,t> <J,f>][B]  type:  1  : 
+0.0
+sample size:  200
+Query:  [<M,t> <J,f>][B]  type:  1  : 
+0.025
+sample size:  500
+Query:  [<M,t> <J,f>][B]  type:  1  : 
+0.0
+sample size:  1000
+Query:  [<M,t> <J,f>][B]  type:  1  : 
+0.0
+sample size:  10000
+Query:  [<M,t> <J,f>][B]  type:  1  : 
+0.0020730397422126746
+sample size:  1
+Query:  [<M,t> <J,f>][E]  type:  1  : 
+0.0
+sample size:  10
+Query:  [<M,t> <J,f>][E]  type:  1  : 
+0.0
+sample size:  50
+Query:  [<M,t> <J,f>][E]  type:  1  : 
+0.0
+sample size:  100
+Query:  [<M,t> <J,f>][E]  type:  1  : 
+0.0
+sample size:  200
+Query:  [<M,t> <J,f>][E]  type:  1  : 
+0.0
+sample size:  500
+Query:  [<M,t> <J,f>][E]  type:  1  : 
+0.0
+sample size:  1000
+Query:  [<M,t> <J,f>][E]  type:  1  : 
+0.01
+sample size:  10000
+Query:  [<M,t> <J,f>][E]  type:  1  : 
+0.0
+
+Process finished with exit code 0
