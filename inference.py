@@ -61,18 +61,6 @@ class Inference:
             del evidence[query]
         return self.normalize(Qx)
 
-        """
-        evidence[query] = 1;
-        # print("query ", query)
-        # print("evidence ", evidence)
-        nodes = self.net.nodes()
-        # Qx[x_i] = enumerateAll(evidence)
-        Qx = self.enumerateAll(evidence, nodes)
-
-        del evidence[query]
-
-        return Qx#self.normalize(Qx)
-        """
 
     def enumerateAll(self, evidence, nodes):
         #print("here")
@@ -99,6 +87,11 @@ class Inference:
 
 
     def normalize(self, Qx):
+        """
+        Simple function to normalize
+        :param Qx:
+        :return:
+        """
         total = 0.0
         for val in Qx.values():
             total += val
@@ -141,8 +134,9 @@ class Inference:
 
     def getIndex(self, node):
         """
+        This function will return the topological index value (referring to the nodes() function in alarmNetwork.py) of the node in the argument
         :param node:
-        :return: topological index of the node in the argument
+        :return: index value
         """
         nodes = self.net.nodes()
         for i, x in enumerate(nodes):
@@ -151,12 +145,18 @@ class Inference:
                 return i
 
     def priorSampling(self, query, evidence):
-        """Calculate the probability of query using prior sampling."""
+        """
+        Calculate the probability of query using prior sampling.
+        :param query:
+        :param evidence:
+        :return: probability of query = 1(True)
+        """
         # Your code goes here
         nSamples = self.getNSamples(evidence)
         formattedEvidence = self.formatEvidence(evidence)
         keys = formattedEvidence.keys()  # [2,3]
         evidenceList = [] # list that will contain only the samples that satisfy the evidence
+        # code inside for loop - to
         for i in nSamples:
             # print(i)
             flag = True
@@ -184,7 +184,11 @@ class Inference:
 
 
     def getNSamples(self, evidence):
-        """Gets n samples for given node"""
+        """
+        Generates n samples for given evidence
+        :param evidence:
+        :return: list of n samples. ex. - [[1,0,0,1,0], [0,0,0,1,0], [1,0,1,1,1], ......n]
+        """
         list = []
         n = self.noOfSamples
         for i in range(1, n):
@@ -194,7 +198,11 @@ class Inference:
 
 
     def getSample(self, evidence):
-        """Gets 1 sample for given node"""
+        """
+        Generates 1 sample for given evidence
+        :param evidence:
+        :return: sample in list[] format. ex - [1,0,0,1,0]
+        """
         list = []
         tempEvidence = copy.deepcopy(evidence)
         nodes = self.net.nodes()
@@ -204,10 +212,10 @@ class Inference:
             #result = self.net.probOf((node, evidence[node]), parentTruthValues)
             result = self.net.probOf((node, 1), parentTruthValues)
             if float(self.random.uniform()) <= result:
-                list.append(1)
+                list.append(1) # node is evaluated to be True, so add '1' to the list
                 tempEvidence[node] = 1 # add that node to evidence with a True value for it's child's CPT computation
             else:
-                list.append(0)
+                list.append(0)  # node is evaluated to be False, so add '0' to the list
                 tempEvidence[node] = 0 # add that node to evidence with a False value for it's child's CPT computation
         return list
 
@@ -263,7 +271,12 @@ class Inference:
 
         #########################
     def likelihoodWeighting(self, query, evidence):
-        """Calculate the probability of query using likelihood weighted sampling."""
+        """
+        Calculate the probability of query using likelihood weighted sampling.
+        :param query:
+        :param evidence:
+        :return: probability of query = 1(True)
+        """
         # Your code goes here
         trueProb = 0.0
         falseProb = 0.0
@@ -295,26 +308,19 @@ class Inference:
             return 0.0
         else:
             return trueProb/total
-        ############
 
-        """ if(x[query] == True):
-                trueProb += w
-            else:
-                falseProb += w
-        total = trueProb + falseProb
-        if total == 0:
-            normalizedResult = 0.0
-        else:
-            normalizedResult = trueProb/(total)
-        return normalizedResult
-        """
 
     def weightedSample(self, evidence):
+        """
+        Generate sample and its corresponding weight
+        :param evidence:
+        :return: sample & weight - x & w
+        """
         w = 1.0
         x = []
         tempEvidence = copy.deepcopy(evidence)
         nodes = self.net.nodes()
-
+        # starting from the first node, start calculating samples for all nodes
         for node in nodes:
             keys = tempEvidence.keys()
             parents = self.net.parent(node)
