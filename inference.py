@@ -1,3 +1,9 @@
+"""
+Authors :
+Aashaar Panchalan - adp170630
+Manish Biyani - mxb172930
+"""
+
 import copy
 class Inference:
     """Inference for Bays Net."""
